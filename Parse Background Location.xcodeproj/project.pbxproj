@@ -1,0 +1,514 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		779729F44FB4E1319C2748E5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B49747D9B7ECE09253451917 /* libPods.a */; };
+		F0154AE81BA78B8C006A8491 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F0154AE71BA78B8C006A8491 /* main.m */; };
+		F0154AEB1BA78B8C006A8491 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F0154AEA1BA78B8C006A8491 /* AppDelegate.m */; };
+		F0154AEE1BA78B8C006A8491 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0154AED1BA78B8C006A8491 /* ViewController.m */; };
+		F0154AF11BA78B8C006A8491 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0154AEF1BA78B8C006A8491 /* Main.storyboard */; };
+		F0154AF31BA78B8C006A8491 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0154AF21BA78B8C006A8491 /* Images.xcassets */; };
+		F0154AF61BA78B8C006A8491 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0154AF41BA78B8C006A8491 /* LaunchScreen.xib */; };
+		F0154B021BA78B8C006A8491 /* Parse_Background_LocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F0154B011BA78B8C006A8491 /* Parse_Background_LocationTests.m */; };
+		F0154B0C1BA790F2006A8491 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0154B0B1BA790F2006A8491 /* MapKit.framework */; };
+		F0154B0F1BA791BD006A8491 /* WDZLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0154B0E1BA791BD006A8491 /* WDZLocationManager.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F0154AFC1BA78B8C006A8491 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0154ADA1BA78B8C006A8491 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F0154AE11BA78B8C006A8491;
+			remoteInfo = "Parse Background Location";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		013718443CF3874A9D311E13 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		9EA6DB1255C2323404A9436B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B49747D9B7ECE09253451917 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0154AE21BA78B8C006A8491 /* Parse Background Location.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Parse Background Location.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0154AE61BA78B8C006A8491 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0154AE71BA78B8C006A8491 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F0154AE91BA78B8C006A8491 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F0154AEA1BA78B8C006A8491 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F0154AEC1BA78B8C006A8491 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		F0154AED1BA78B8C006A8491 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		F0154AF01BA78B8C006A8491 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F0154AF21BA78B8C006A8491 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F0154AF51BA78B8C006A8491 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		F0154AFB1BA78B8C006A8491 /* Parse Background LocationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Parse Background LocationTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0154B001BA78B8C006A8491 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0154B011BA78B8C006A8491 /* Parse_Background_LocationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Parse_Background_LocationTests.m; sourceTree = "<group>"; };
+		F0154B0B1BA790F2006A8491 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		F0154B0D1BA791BD006A8491 /* WDZLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDZLocationManager.h; sourceTree = "<group>"; };
+		F0154B0E1BA791BD006A8491 /* WDZLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDZLocationManager.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F0154ADF1BA78B8C006A8491 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0154B0C1BA790F2006A8491 /* MapKit.framework in Frameworks */,
+				779729F44FB4E1319C2748E5 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0154AF81BA78B8C006A8491 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4D7820207319781728A31C11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F0154B0B1BA790F2006A8491 /* MapKit.framework */,
+				B49747D9B7ECE09253451917 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AF47C6465CE2AB928456253B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9EA6DB1255C2323404A9436B /* Pods.debug.xcconfig */,
+				013718443CF3874A9D311E13 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F0154AD91BA78B8C006A8491 = {
+			isa = PBXGroup;
+			children = (
+				F0154AE41BA78B8C006A8491 /* Parse Background Location */,
+				F0154AFE1BA78B8C006A8491 /* Parse Background LocationTests */,
+				F0154AE31BA78B8C006A8491 /* Products */,
+				AF47C6465CE2AB928456253B /* Pods */,
+				4D7820207319781728A31C11 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F0154AE31BA78B8C006A8491 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F0154AE21BA78B8C006A8491 /* Parse Background Location.app */,
+				F0154AFB1BA78B8C006A8491 /* Parse Background LocationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F0154AE41BA78B8C006A8491 /* Parse Background Location */ = {
+			isa = PBXGroup;
+			children = (
+				F0154B0D1BA791BD006A8491 /* WDZLocationManager.h */,
+				F0154B0E1BA791BD006A8491 /* WDZLocationManager.m */,
+				F0154AE91BA78B8C006A8491 /* AppDelegate.h */,
+				F0154AEA1BA78B8C006A8491 /* AppDelegate.m */,
+				F0154AEC1BA78B8C006A8491 /* ViewController.h */,
+				F0154AED1BA78B8C006A8491 /* ViewController.m */,
+				F0154AEF1BA78B8C006A8491 /* Main.storyboard */,
+				F0154AF21BA78B8C006A8491 /* Images.xcassets */,
+				F0154AF41BA78B8C006A8491 /* LaunchScreen.xib */,
+				F0154AE51BA78B8C006A8491 /* Supporting Files */,
+			);
+			path = "Parse Background Location";
+			sourceTree = "<group>";
+		};
+		F0154AE51BA78B8C006A8491 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F0154AE61BA78B8C006A8491 /* Info.plist */,
+				F0154AE71BA78B8C006A8491 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F0154AFE1BA78B8C006A8491 /* Parse Background LocationTests */ = {
+			isa = PBXGroup;
+			children = (
+				F0154B011BA78B8C006A8491 /* Parse_Background_LocationTests.m */,
+				F0154AFF1BA78B8C006A8491 /* Supporting Files */,
+			);
+			path = "Parse Background LocationTests";
+			sourceTree = "<group>";
+		};
+		F0154AFF1BA78B8C006A8491 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F0154B001BA78B8C006A8491 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F0154AE11BA78B8C006A8491 /* Parse Background Location */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0154B051BA78B8C006A8491 /* Build configuration list for PBXNativeTarget "Parse Background Location" */;
+			buildPhases = (
+				1829CE43844023941B34D104 /* Check Pods Manifest.lock */,
+				F0154ADE1BA78B8C006A8491 /* Sources */,
+				F0154ADF1BA78B8C006A8491 /* Frameworks */,
+				F0154AE01BA78B8C006A8491 /* Resources */,
+				951D104D729883741AD2622D /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Parse Background Location";
+			productName = "Parse Background Location";
+			productReference = F0154AE21BA78B8C006A8491 /* Parse Background Location.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F0154AFA1BA78B8C006A8491 /* Parse Background LocationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0154B081BA78B8C006A8491 /* Build configuration list for PBXNativeTarget "Parse Background LocationTests" */;
+			buildPhases = (
+				F0154AF71BA78B8C006A8491 /* Sources */,
+				F0154AF81BA78B8C006A8491 /* Frameworks */,
+				F0154AF91BA78B8C006A8491 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F0154AFD1BA78B8C006A8491 /* PBXTargetDependency */,
+			);
+			name = "Parse Background LocationTests";
+			productName = "Parse Background LocationTests";
+			productReference = F0154AFB1BA78B8C006A8491 /* Parse Background LocationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F0154ADA1BA78B8C006A8491 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "WDZ LLC";
+				TargetAttributes = {
+					F0154AE11BA78B8C006A8491 = {
+						CreatedOnToolsVersion = 6.4;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					F0154AFA1BA78B8C006A8491 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = F0154AE11BA78B8C006A8491;
+					};
+				};
+			};
+			buildConfigurationList = F0154ADD1BA78B8C006A8491 /* Build configuration list for PBXProject "Parse Background Location" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F0154AD91BA78B8C006A8491;
+			productRefGroup = F0154AE31BA78B8C006A8491 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F0154AE11BA78B8C006A8491 /* Parse Background Location */,
+				F0154AFA1BA78B8C006A8491 /* Parse Background LocationTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F0154AE01BA78B8C006A8491 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0154AF11BA78B8C006A8491 /* Main.storyboard in Resources */,
+				F0154AF61BA78B8C006A8491 /* LaunchScreen.xib in Resources */,
+				F0154AF31BA78B8C006A8491 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0154AF91BA78B8C006A8491 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1829CE43844023941B34D104 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		951D104D729883741AD2622D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F0154ADE1BA78B8C006A8491 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0154B0F1BA791BD006A8491 /* WDZLocationManager.m in Sources */,
+				F0154AEE1BA78B8C006A8491 /* ViewController.m in Sources */,
+				F0154AEB1BA78B8C006A8491 /* AppDelegate.m in Sources */,
+				F0154AE81BA78B8C006A8491 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0154AF71BA78B8C006A8491 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0154B021BA78B8C006A8491 /* Parse_Background_LocationTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F0154AFD1BA78B8C006A8491 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F0154AE11BA78B8C006A8491 /* Parse Background Location */;
+			targetProxy = F0154AFC1BA78B8C006A8491 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F0154AEF1BA78B8C006A8491 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F0154AF01BA78B8C006A8491 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F0154AF41BA78B8C006A8491 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F0154AF51BA78B8C006A8491 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F0154B031BA78B8C006A8491 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F0154B041BA78B8C006A8491 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F0154B061BA78B8C006A8491 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9EA6DB1255C2323404A9436B /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Parse Background Location/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F0154B071BA78B8C006A8491 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 013718443CF3874A9D311E13 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Parse Background Location/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F0154B091BA78B8C006A8491 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Parse Background LocationTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Parse Background Location.app/Parse Background Location";
+			};
+			name = Debug;
+		};
+		F0154B0A1BA78B8C006A8491 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Parse Background LocationTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Parse Background Location.app/Parse Background Location";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F0154ADD1BA78B8C006A8491 /* Build configuration list for PBXProject "Parse Background Location" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0154B031BA78B8C006A8491 /* Debug */,
+				F0154B041BA78B8C006A8491 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F0154B051BA78B8C006A8491 /* Build configuration list for PBXNativeTarget "Parse Background Location" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0154B061BA78B8C006A8491 /* Debug */,
+				F0154B071BA78B8C006A8491 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F0154B081BA78B8C006A8491 /* Build configuration list for PBXNativeTarget "Parse Background LocationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0154B091BA78B8C006A8491 /* Debug */,
+				F0154B0A1BA78B8C006A8491 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F0154ADA1BA78B8C006A8491 /* Project object */;
+}
