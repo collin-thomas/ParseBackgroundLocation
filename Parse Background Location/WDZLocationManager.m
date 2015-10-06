@@ -36,16 +36,21 @@
         self.locationManager.delegate = self;
         
         // 100 is probably the lowest you can go, 65 seems to be iphone 5 limit.
-        self.locationManager.desiredAccuracy = 125.00;
+        self.locationManager.desiredAccuracy = 130.00;
         
         // radius should be larger than the desiredAccuracy
-        self.regionRadius = [NSNumber numberWithDouble:200.00];
+        self.regionRadius = [NSNumber numberWithDouble:300.00];
+        
+        // if the radius is too big then set it to the max
+        if (self.regionRadius > [NSNumber numberWithDouble:self.locationManager.maximumRegionMonitoringDistance]) {
+            self.regionRadius = [NSNumber numberWithDouble:self.locationManager.maximumRegionMonitoringDistance];
+        }
         
         // if you don't have one of these then likes to fire off a couple extra
         // location updates even though you've got one you like already and said stop.
         // we set it to 50 because even though 65 is the hardware limit it will give us best
         // possible without it firing extra updates.
-        self.locationManager.distanceFilter = 50;
+        self.locationManager.distanceFilter = 65.00;
         
         [self.locationManager requestAlwaysAuthorization];
     }
@@ -56,7 +61,7 @@
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"mm:ss.SSS"];
+    [formatter setDateFormat:@"hh:mm:ss.SSS"];
     dateString = [formatter stringFromDate:[NSDate date]];
     NSString *name = [NSString stringWithFormat:@"wdz-"];
     self.regionIdentifier = [name stringByAppendingString:dateString];
@@ -67,20 +72,20 @@
     if(![CLLocationManager locationServicesEnabled])
     {
         [self showMessage:@"You need to enable Location Services"];
-        return  FALSE;
+        return NO;
     }
     if(![CLLocationManager isMonitoringAvailableForClass:[CLRegion class]])
     {
         [self showMessage:@"Region monitoring is not available for this Class"];
-        return  FALSE;
+        return NO;
     }
     if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied ||
        [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted  )
     {
         [self showMessage:@"You need to authorize Location Services for the APP"];
-        return  FALSE;
+        return NO;
     }
-    return TRUE;
+    return YES;
 }
 
 // 6.
@@ -92,19 +97,29 @@
     [self removeRegion:region];
     
     // 8.
-    [[WDZLocationManager sharedInstance] startUpdatingLocation];
+    [self startUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
 
     NSLog(@"Region Failure - %@", [error localizedDescription]);
+    
+    [self saveError:error];
+    
     [self showMessage:@"Failure to monitor region"];
+    
+    // you could retry here
+    //[self removeAllRegions];
+    //[self startUpdatingLocation];
 }
 
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"Location Failure - %@", [error localizedDescription]);
+    
+    [self saveError:error];
+    
     [self showMessage:@"We could not determine your location"];
 }
 
@@ -126,6 +141,23 @@
     }
 }
 
+// delegate method that responds to requestStateForRegion
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+{
+    if (state == CLRegionStateInside)
+    {
+        self.regionState = @"inside";
+    }
+    else if (state == CLRegionStateOutside)
+    {
+        self.regionState = @"outside";
+    }
+    else if (state == CLRegionStateUnknown)
+    {
+        self.regionState = @"unknown";
+    }
+}
+
 - (void)stopUpdatingLocation
 {
     NSLog(@"Stopping location updates");
@@ -134,18 +166,38 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray*)locations
 {
+    NSLog(@"locations count %lu", (unsigned long)[locations count]);
+    
     CLLocation *location = [locations lastObject];
-
+    
     NSLog(@"Latitude %+.6f, Longitude %+.6f\n",
           location.coordinate.latitude,
           location.coordinate.longitude);
+    
+    if ([locations count] > 1) {
+    
+        CLLocation *secondToLastLocation = [locations objectAtIndex:[locations count] - 1];
+    
+        CLLocationDistance distance = [secondToLastLocation distanceFromLocation:location];
+    
+        NSLog(@"Distance - %f", distance);
+        
+        NSLog(@"LLLatitude %+.6f, LLLLongitude %+.6f\n",
+              secondToLastLocation.coordinate.latitude,
+              secondToLastLocation.coordinate.longitude);
+
+        // region radius
+        if (distance <= 200) {
+            return;
+        }
+    }
     
     // apple code
     // test age to make sure it is not cached
     // locationAge is measured in seconds
     NSTimeInterval locationAge = -[location.timestamp timeIntervalSinceNow];
-    if (locationAge > 5.0) {
-        NSLog(@"locationAge - %f", locationAge);
+    NSLog(@"locationAge - %f", locationAge);
+    if (locationAge > 10.0) {
         return;
     }
     
@@ -158,34 +210,17 @@
     
     NSLog(@"horizontalAccuracy - %f", location.horizontalAccuracy);
     
-    NSLog(@"bestEffortAtLocation - %f", self.bestEffortAtLocation.horizontalAccuracy);
-    
-    // true if there hasn't been a previous location update yet
-    // true if the new location update's accuracy is better than the desired accuracy
-    // // you'd think this one is redunt but in testing you can get a exact match
-    // // and it goes into a forever loop, also if you get the best accuracy
-    // // possible from the device (iphone5 = 65) the first time then you will be
-    // // stuck in the same loop. so if you just compare it to the desired accuracy
-    // // here as well, it won't get stuck in the forever loop
-    // true if the new location update's accuracy is better than the first update
-    if (self.bestEffortAtLocation == nil ||
-        location.horizontalAccuracy <= self.locationManager.desiredAccuracy ||
-        location.horizontalAccuracy < self.bestEffortAtLocation.horizontalAccuracy) {
+    // true if the new location's accuracy is closer in meters than what we've defined
+    if (location.horizontalAccuracy <= self.locationManager.desiredAccuracy) {
         
-        self.bestEffortAtLocation = location;
+        self.currentLocation = location;
+            
+        // 2.
+        [self stopUpdatingLocation];
+            
+        // 3.
+        [self addRegion];
         
-        // but only if the new location update's accuracy is better than the desired accuracy
-        if (location.horizontalAccuracy <= self.locationManager.desiredAccuracy) {
-        
-            self.currentLocation = location;
-            
-            // 2.
-            [[WDZLocationManager sharedInstance] stopUpdatingLocation];
-            
-            // 3.
-            [[WDZLocationManager sharedInstance] addRegion];
-            
-        }
     }
 }
 
@@ -235,22 +270,22 @@
         return;
     }
     
+    CLLocationCoordinate2D coordiate = self.currentLocation.coordinate;
+    
     [self newRegionIdentifier];
     
-    CLLocationCoordinate2D coordiate = [WDZLocationManager sharedInstance].currentLocation.coordinate;
-    
-    //NSLog(@"%@", [WDZLocationManager sharedInstance].regionIdentifier);
-
-    //NSLog(@"%@", [WDZLocationManager sharedInstance].regionRadius);
-    
     NSDictionary *regionDictionary = @{
-        @"identifier" : [WDZLocationManager sharedInstance].regionIdentifier,
+        @"identifier" : self.regionIdentifier,
         @"latitude" : [NSNumber numberWithDouble:(double)coordiate.latitude],
         @"longitude" : [NSNumber numberWithDouble:(double)coordiate.longitude],
-        @"radius" : [WDZLocationManager sharedInstance].regionRadius};
+        @"radius" : self.regionRadius};
     
     CLRegion * region = [self dictToRegion:regionDictionary];
-
+    
+    region.notifyOnEntry = NO;
+    region.notifyOnExit = YES;
+    
+    
     // 5.
     [self.locationManager startMonitoringForRegion:region];
     
@@ -304,19 +339,28 @@
     NSString *lat = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.latitude];
     NSString *lng = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.longitude];
     
-    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
-    testObject[@"lat"] = lat;
-    testObject[@"lng"] = lng;
-    testObject[@"region"] = self.regionIdentifier;
-    testObject[@"info"] = @"new region being monitored";
+    PFObject *region = [PFObject objectWithClassName:@"Regions"];
+    region[@"lat"] = lat;
+    region[@"lng"] = lng;
+    region[@"region"] = self.regionIdentifier;
+    region[@"info"] = @"hansIphone";
     
-    [testObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    [region saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             NSLog(@"succcess saving to parse");
         } else {
             NSLog(@"parse error - %@", error.description);
         }
     }];
+}
+
+- (void) saveError:(NSError *)error
+{
+    if ([error localizedDescription] != nil) {
+        PFObject *err = [PFObject objectWithClassName:@"Errors"];
+        err[@"desc"] = [error localizedDescription];
+        [err saveInBackground];
+    }
 }
 
 @end

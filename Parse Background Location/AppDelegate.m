@@ -37,11 +37,15 @@
     
     // 1.
     // if there is already a region being monitored no need to kick off the process
-    // also make sure location service is workingz
+    // also make sure location service is working
     if ([[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count == 0) {
         if ([[WDZLocationManager sharedInstance] checkLocationManager]) {
             [[WDZLocationManager sharedInstance] startUpdatingLocation];
         }
+    } else {
+        CLRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
+        
+        [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
     }
     
     return YES;
@@ -66,6 +70,10 @@
         if ([[WDZLocationManager sharedInstance] checkLocationManager]) {
             [[WDZLocationManager sharedInstance] startUpdatingLocation];
         }
+    } else {
+        CLRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
+        
+        [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
     }
 }
 

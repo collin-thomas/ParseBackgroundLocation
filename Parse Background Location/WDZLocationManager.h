@@ -17,8 +17,8 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *currentLocation;
 @property (strong, nonatomic) NSString *regionIdentifier;
+@property (strong, nonatomic) NSString *regionState;
 @property (strong, nonatomic) NSNumber *regionRadius;
-@property (nonatomic, strong) CLLocation *bestEffortAtLocation; // testing from apple code
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;
 - (BOOL)checkLocationManager;

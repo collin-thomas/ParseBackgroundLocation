@@ -27,7 +27,7 @@
                                 </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PEr-FT-rYb">
-                                <rect key="frame" x="15" y="114" width="568" height="466"/>
+                                <rect key="frame" x="15" y="148" width="568" height="432"/>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coords" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkH-he-ALm">
                                 <rect key="frame" x="16" y="46" width="200" height="52"/>
@@ -36,18 +36,40 @@
                                     <constraint firstAttribute="height" constant="52" id="8nt-gB-eKV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Region State" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCc-oD-mgc">
+                                <rect key="frame" x="16" y="119" width="153" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="153" id="aig-pN-CTU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Region" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BuG-bt-zF1">
+                                <rect key="frame" x="448" y="119" width="136" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="OAJ-Fl-zCz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="PEr-FT-rYb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="94" id="BUz-uP-kwO"/>
+                            <constraint firstItem="LCc-oD-mgc" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="99" id="1CX-yx-g3m"/>
+                            <constraint firstItem="PEr-FT-rYb" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="128" id="BUz-uP-kwO"/>
                             <constraint firstItem="gkH-he-ALm" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="26" id="G0W-0f-YWL"/>
+                            <constraint firstItem="LCc-oD-mgc" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="KMD-r5-vSk"/>
                             <constraint firstItem="3BC-8O-mcV" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="26" id="M3g-N0-0l4"/>
                             <constraint firstItem="3BC-8O-mcV" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="Nsf-gK-veb"/>
+                            <constraint firstItem="BuG-bt-zF1" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="99" id="ONb-rb-XAM"/>
                             <constraint firstItem="PEr-FT-rYb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-1" id="QZ3-Ym-eAv"/>
                             <constraint firstItem="gkH-he-ALm" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="R7l-VG-yQI"/>
+                            <constraint firstItem="BuG-bt-zF1" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="pUc-ff-cuU"/>
                             <constraint firstItem="PEr-FT-rYb" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" constant="-1" id="u6O-1l-Ogz"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="PEr-FT-rYb" secondAttribute="bottom" constant="20" id="vQ2-82-I3o"/>
                         </constraints>
@@ -55,6 +77,8 @@
                     <connections>
                         <outlet property="label" destination="gkH-he-ALm" id="5tc-cU-oFL"/>
                         <outlet property="mapView" destination="PEr-FT-rYb" id="piZ-wM-Aav"/>
+                        <outlet property="regionIdentifier" destination="BuG-bt-zF1" id="9DG-z9-r78"/>
+                        <outlet property="regionState" destination="LCc-oD-mgc" id="KM0-ox-MDO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

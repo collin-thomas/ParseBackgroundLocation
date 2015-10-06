@@ -15,6 +15,8 @@
 @interface ViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UILabel *regionIdentifier;
+@property (weak, nonatomic) IBOutlet UILabel *regionState;
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
@@ -30,6 +32,8 @@
     
     // Monitor for when there is a new region
     [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"regionIdentifier" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"regionState" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 // delegate that fires from observer
@@ -52,6 +56,18 @@
         [self.mapView setRegion:adjustedRegion animated:YES];
         //[self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
         
+        NSString *id = [WDZLocationManager sharedInstance].regionIdentifier;
+        if (id != nil) {
+            self.regionIdentifier.text = id;
+        }
+    }
+    
+    if([keyPath isEqualToString:@"regionState"]) {
+        
+        NSString *state = [WDZLocationManager sharedInstance].regionState;
+        if (state != nil) {
+            self.regionState.text = state;
+        }
     }
 }
 
