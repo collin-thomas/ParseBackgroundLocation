@@ -129,7 +129,17 @@
 {
     NSLog(@"Now Monitoring Region - %@", region.identifier);
     
-    //[self testNetworking];
+    // Ask for state of currently monitored region
+    // caused error. idk stackoverflow someone said they saw it too
+    // 
+    // kCLErrorDomain error 5.
+    /*
+    if (region) {
+        [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
+    }
+    */
+    
+    // save to parse
     [self testParse];
 }
 

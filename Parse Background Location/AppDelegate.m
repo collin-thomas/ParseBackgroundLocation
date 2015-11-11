@@ -33,6 +33,14 @@
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
+    
+    
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
+        NSLog(@"app started because a region update occured");
+    }
+    
+    
+    
     NSLog(@"%lu", (unsigned long)[[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count);
     
     // 1.
@@ -43,9 +51,12 @@
             [[WDZLocationManager sharedInstance] startUpdatingLocation];
         }
     } else {
+        // Ask for state of currently monitored region
         CLRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
-        
-        [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
+
+        if (region) {
+            [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
+        }
     }
     
     return YES;
@@ -71,9 +82,12 @@
             [[WDZLocationManager sharedInstance] startUpdatingLocation];
         }
     } else {
+        // Ask for state of currently monitored region
         CLRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
         
-        [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
+        if (region) {
+            [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
+        }
     }
 }
 

@@ -112,10 +112,10 @@
 		F0154AE41BA78B8C006A8491 /* Parse Background Location */ = {
 			isa = PBXGroup;
 			children = (
-				F0154B0D1BA791BD006A8491 /* WDZLocationManager.h */,
-				F0154B0E1BA791BD006A8491 /* WDZLocationManager.m */,
 				F0154AE91BA78B8C006A8491 /* AppDelegate.h */,
 				F0154AEA1BA78B8C006A8491 /* AppDelegate.m */,
+				F0154B0D1BA791BD006A8491 /* WDZLocationManager.h */,
+				F0154B0E1BA791BD006A8491 /* WDZLocationManager.m */,
 				F0154AEC1BA78B8C006A8491 /* ViewController.h */,
 				F0154AED1BA78B8C006A8491 /* ViewController.m */,
 				F0154AEF1BA78B8C006A8491 /* Main.storyboard */,
