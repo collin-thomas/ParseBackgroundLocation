@@ -152,7 +152,7 @@
 }
 
 // delegate method that responds to requestStateForRegion
-- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLCircularRegion *)region
 {
     if (state == CLRegionStateInside)
     {
@@ -234,7 +234,7 @@
     }
 }
 
-- (CLRegion*)dictToRegion:(NSDictionary*)dictionary
+- (CLCircularRegion*)dictToRegion:(NSDictionary*)dictionary
 {
     NSString *identifier = [dictionary valueForKey:@"identifier"];
     CLLocationDegrees latitude = [[dictionary valueForKey:@"latitude"] doubleValue];
@@ -290,7 +290,9 @@
         @"longitude" : [NSNumber numberWithDouble:(double)coordiate.longitude],
         @"radius" : self.regionRadius};
     
-    CLRegion * region = [self dictToRegion:regionDictionary];
+    CLCircularRegion *region = [self dictToRegion:regionDictionary];
+    
+    self.region = region;
     
     region.notifyOnEntry = NO;
     region.notifyOnExit = YES;

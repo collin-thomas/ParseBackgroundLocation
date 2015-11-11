@@ -31,7 +31,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     // Monitor for when there is a new region
-    [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"regionIdentifier" options:NSKeyValueObservingOptionNew context:nil];
+    [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"region" options:NSKeyValueObservingOptionNew context:nil];
     
     [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"regionState" options:NSKeyValueObservingOptionNew context:nil];
 }
@@ -39,11 +39,15 @@
 // delegate that fires from observer
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object  change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualToString:@"regionIdentifier"]) {
+    if([keyPath isEqualToString:@"region"]) {
         
-        CLLocation *location = [WDZLocationManager sharedInstance].currentLocation;
+        //CLLocation *location = [WDZLocationManager sharedInstance].currentLocation;
+        CLLocationDegrees latitude = [WDZLocationManager sharedInstance].region.center.latitude;
+        CLLocationDegrees longitude = [WDZLocationManager sharedInstance].region.center.longitude;
         
-        self.label.text = [NSString stringWithFormat:@"Latitude %+.6f\nLongitude %+.6f", location.coordinate.latitude, location.coordinate.longitude];
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        
+        self.label.text = [NSString stringWithFormat:@"Latitude %+.6f\nLongitude %+.6f", latitude, longitude];
         
         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
         [annotation setCoordinate:location.coordinate];
