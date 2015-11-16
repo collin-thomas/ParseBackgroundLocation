@@ -91,18 +91,27 @@
 // 6.
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
-    NSLog(@"Exited Region - %@", region.identifier);
-    
+    NSLog(@"*** Exited Region - %@", region.identifier);
+    [self saveLog:[NSString stringWithFormat:@"*** Exited Region - %@", region.identifier]];
     // 7.
     [self removeRegion:region];
     
+    // This may be the cause of the issue for the location not updating always.
+    // We may need to move this to another section, because may need to
+    // call this in didFinishLaunchingWithOptions under UIApplicationLaunchOptionsLocationKey section
+    // because all the documentation talks about creating a new instance of location manager
+    // and start updating location.
+    // But what i don't know is if this didExitRegion gets called when the app is shut off
+    // and the region boundry is crossed. I don't know need to test and stuff.
+    // Maybe i just need to call the same code thats in this section in the LocationKey section.
     // 8.
     [self startUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
 
-    NSLog(@"Region Failure - %@", [error localizedDescription]);
+    NSLog(@"*** Region Failure - %@", [error localizedDescription]);
+    [self saveLog:[NSString stringWithFormat:@"*** Region Failure - %@", [error localizedDescription]]];
     
     [self saveError:error];
     
@@ -116,7 +125,8 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"Location Failure - %@", [error localizedDescription]);
+    NSLog(@"*** Location Failure - %@", [error localizedDescription]);
+    [self saveLog:[NSString stringWithFormat:@"*** Location Failure - %@", [error localizedDescription]]];
     
     [self saveError:error];
     
@@ -127,7 +137,8 @@
 // delegate method that gets called if a new region is being monitored.
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
-    NSLog(@"Now Monitoring Region - %@", region.identifier);
+    NSLog(@"*** Now Monitoring Region - %@", region.identifier);
+    [self saveLog:[NSString stringWithFormat:@"*** Now Monitoring Region - %@", region.identifier]];
     
     // Ask for state of currently monitored region
     // caused error. idk stackoverflow someone said they saw it too
@@ -138,9 +149,10 @@
         [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
     }
     */
+    [WDZLocationManager sharedInstance].regionCount = [[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count;
     
     // save to parse
-    [self testParse];
+    [self saveRegion];
 }
 
 - (void)startUpdatingLocation
@@ -222,6 +234,9 @@
     
     // true if the new location's accuracy is closer in meters than what we've defined
     if (location.horizontalAccuracy <= self.locationManager.desiredAccuracy) {
+        
+        NSLog(@"*** New location obtained - %f, %f", location.coordinate.latitude, location.coordinate.longitude);
+        [self saveLog:[NSString stringWithFormat:@"*** New location obtained - %f, %f", location.coordinate.latitude, location.coordinate.longitude]];
         
         self.currentLocation = location;
             
@@ -309,7 +324,10 @@
     // stop monitoring
     [self.locationManager stopMonitoringForRegion:region];
     
-    NSLog(@"Stopped Monitoing Region - %@", region.identifier);
+    [WDZLocationManager sharedInstance].regionCount = [[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count;
+    
+    NSLog(@"*** Stopped Monitoing Region - %@", region.identifier);
+    [self saveLog:[NSString stringWithFormat:@"*** Stopped Monitoing Region - %@", region.identifier]];
 }
 
 - (void)removeAllRegions
@@ -320,6 +338,8 @@
         [self.locationManager stopMonitoringForRegion:region];
         NSLog(@"Stopped Monitoing Region - %@", region.identifier);
     }
+    
+    [WDZLocationManager sharedInstance].regionCount = [[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count;
 }
 
 - (void)testNetworking
@@ -346,8 +366,9 @@
     }];
 }
 
-- (void)testParse
+- (void)saveRegion
 {
+    
     NSString *lat = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.latitude];
     NSString *lng = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.longitude];
     
@@ -355,7 +376,7 @@
     region[@"lat"] = lat;
     region[@"lng"] = lng;
     region[@"region"] = self.regionIdentifier;
-    region[@"info"] = @"hansIphone";
+    region[@"info"] = @"myIphone";
     
     [region saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
@@ -364,15 +385,28 @@
             NSLog(@"parse error - %@", error.description);
         }
     }];
+    
 }
 
-- (void) saveError:(NSError *)error
+- (void)saveLog:(NSString *)message
 {
+    
+    PFObject *logObj = [PFObject objectWithClassName:@"Log"];
+    logObj[@"message"] = message;
+    logObj[@"info"] = @"myIphone";
+    [logObj saveInBackground];
+    
+}
+
+- (void)saveError:(NSError *)error
+{
+    
     if ([error localizedDescription] != nil) {
         PFObject *err = [PFObject objectWithClassName:@"Errors"];
         err[@"desc"] = [error localizedDescription];
         [err saveInBackground];
     }
+    
 }
 
 @end

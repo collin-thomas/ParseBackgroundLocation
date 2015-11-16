@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *label;
 @property (weak, nonatomic) IBOutlet UILabel *regionIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *regionState;
+@property (weak, nonatomic) IBOutlet UILabel *regionCount;
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
@@ -34,6 +35,8 @@
     [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"region" options:NSKeyValueObservingOptionNew context:nil];
     
     [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"regionState" options:NSKeyValueObservingOptionNew context:nil];
+
+    [[WDZLocationManager sharedInstance] addObserver:self forKeyPath:@"regionCount" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 // delegate that fires from observer
@@ -71,6 +74,15 @@
         NSString *state = [WDZLocationManager sharedInstance].regionState;
         if (state != nil) {
             self.regionState.text = state;
+        }
+    }
+    
+    if([keyPath isEqualToString:@"regionCount"]) {
+        
+        NSString *count = [NSString stringWithFormat:@"%lu", (unsigned long)[WDZLocationManager sharedInstance].regionCount];
+        
+        if (count != nil) {
+            self.regionCount.text = count;
         }
     }
 }

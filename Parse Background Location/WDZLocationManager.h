@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSString *regionIdentifier;
 @property (strong, nonatomic) NSString *regionState;
 @property (strong, nonatomic) NSNumber *regionRadius;
+@property (nonatomic) NSUInteger regionCount;
 @property (strong, nonatomic) CLCircularRegion *region;
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;

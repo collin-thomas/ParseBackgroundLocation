@@ -34,33 +34,33 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     
-    
+    // app was not running but started because a region update occured
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey]) {
+        
         NSLog(@"app started because a region update occured");
         
-        NSLog(@"%lu", (unsigned long)[[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count);
+        // init location manager because apple documentation.
+        // You should use the presence of this key as a signal to create a CLLocationManager object
+        // and start location services again.
+        // Location data is delivered only to the location manager delegate and not using this key
+
+        [[WDZLocationManager sharedInstance] locationManager];
         
-        // 1.
-        // if there is already a region being monitored no need to kick off the process
-        // also make sure location service is working
-        if ([[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count == 0) {
-            if ([[WDZLocationManager sharedInstance] checkLocationManager]) {
-                [[WDZLocationManager sharedInstance] startUpdatingLocation];
-            }
-        } else {
+        [WDZLocationManager sharedInstance].regionCount = [[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count;
+        
+        NSLog(@"region count: %lu",(unsigned long)[WDZLocationManager sharedInstance].regionCount);
+        
+        CLCircularRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
+        
+        if (region) {
+            NSLog(@"UIApplicationLaunchOptionsLocationKey");
+            // set the region, should cue update to interface
+            
+            [WDZLocationManager sharedInstance].regionIdentifier = region.identifier;
+            [WDZLocationManager sharedInstance].region = region;
+            
             // Ask for state of currently monitored region
-            CLCircularRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
-     
-            if (region) {
-                NSLog(@"UIApplicationLaunchOptionsLocationKey");
-                // set the region, should cue update to interface
-                
-                [WDZLocationManager sharedInstance].regionIdentifier = region.identifier;
-                [WDZLocationManager sharedInstance].region = region;
-                
-                
-                [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
-            }
+            [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
         }
     }
 
@@ -88,24 +88,32 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
+    // 1.
+    // if there is already a region being monitored no need to kick off the process
+    // also make sure location service is working
     // if no regions are being monitored and the user doesn't kill and launch
     // but just opens app from background then call what we do above to start the show
-    if ([[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count == 0) {
+    [WDZLocationManager sharedInstance].regionCount = [[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count;
+    
+    NSLog(@"region count: %lu",(unsigned long)[WDZLocationManager sharedInstance].regionCount);
+    
+    if ([WDZLocationManager sharedInstance].regionCount == 0) {
         if ([[WDZLocationManager sharedInstance] checkLocationManager]) {
             [[WDZLocationManager sharedInstance] startUpdatingLocation];
         }
     } else {
-        // Ask for state of currently monitored region
         CLCircularRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
         
         if (region) {
-            NSLog(@"did become active");
+           
+            NSLog(@"app did become active");
             
             // set the region, should cue update to interface
             // importatn for this to go fisrt because we are monitorign the region to change and it is that fast!
             [WDZLocationManager sharedInstance].regionIdentifier = region.identifier;
             [WDZLocationManager sharedInstance].region = region;
             
+            // Ask for state of currently monitored region
             [[[WDZLocationManager sharedInstance] locationManager] requestStateForRegion:region];
         }
     }
