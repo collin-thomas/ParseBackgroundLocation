@@ -21,8 +21,9 @@
 @property (strong, nonatomic) NSNumber *regionRadius;
 @property (nonatomic) NSUInteger regionCount;
 @property (strong, nonatomic) CLCircularRegion *region;
-- (void)startUpdatingLocation;
-- (void)stopUpdatingLocation;
+@property (strong, nonatomic) NSDate *locationUpdateStartTime;
+- (void)startRequestingLocationUpdates;
+- (void)stopRequestingLocationUpdates;
 - (BOOL)checkLocationManager;
 - (void)addRegion;
 - (void)removeRegion:(CLRegion *)region;

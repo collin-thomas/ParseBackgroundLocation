@@ -35,8 +35,12 @@
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
         
+        // new for ios 9
+        self.locationManager.allowsBackgroundLocationUpdates = YES;
+        
         // 100 is probably the lowest you can go, 65 seems to be iphone 5 limit.
-        self.locationManager.desiredAccuracy = 130.00;
+        // previously 130
+        self.locationManager.desiredAccuracy = 250.00;
         
         // radius should be larger than the desiredAccuracy
         self.regionRadius = [NSNumber numberWithDouble:300.00];
@@ -48,9 +52,10 @@
         
         // if you don't have one of these then likes to fire off a couple extra
         // location updates even though you've got one you like already and said stop.
-        // we set it to 50 because even though 65 is the hardware limit it will give us best
+        // we set it to 65 is the hardware limit it will give us best
         // possible without it firing extra updates.
         self.locationManager.distanceFilter = 65.00;
+        //self.locationManager.distanceFilter = kCLDistanceFilterNone;
         
         [self.locationManager requestAlwaysAuthorization];
     }
@@ -96,16 +101,8 @@
     // 7.
     [self removeRegion:region];
     
-    // This may be the cause of the issue for the location not updating always.
-    // We may need to move this to another section, because may need to
-    // call this in didFinishLaunchingWithOptions under UIApplicationLaunchOptionsLocationKey section
-    // because all the documentation talks about creating a new instance of location manager
-    // and start updating location.
-    // But what i don't know is if this didExitRegion gets called when the app is shut off
-    // and the region boundry is crossed. I don't know need to test and stuff.
-    // Maybe i just need to call the same code thats in this section in the LocationKey section.
     // 8.
-    [self startUpdatingLocation];
+    [self startRequestingLocationUpdates];
 }
 
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
@@ -119,7 +116,7 @@
     
     // you could retry here
     //[self removeAllRegions];
-    //[self startUpdatingLocation];
+    //[self startRequestingLocationUpdates];
 }
 
 
@@ -155,14 +152,6 @@
     [self saveRegion];
 }
 
-- (void)startUpdatingLocation
-{
-    NSLog(@"Starting location updates");
-    if ([self checkLocationManager]) {
-        [self.locationManager startUpdatingLocation];
-    }
-}
-
 // delegate method that responds to requestStateForRegion
 - (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLCircularRegion *)region
 {
@@ -180,48 +169,42 @@
     }
 }
 
-- (void)stopUpdatingLocation
+- (void)stopRequestingLocationUpdates
 {
     NSLog(@"Stopping location updates");
     [self.locationManager stopUpdatingLocation];
 }
 
+- (void)startRequestingLocationUpdates
+{
+    NSLog(@"*** Starting location updates");
+    if ([self checkLocationManager]) {
+        
+        self.locationUpdateStartTime = [NSDate date];
+        
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray*)locations
 {
+    NSLog(@"-------- New Location Update --------");
+    
+    // location count
     NSLog(@"locations count %lu", (unsigned long)[locations count]);
     
-    CLLocation *location = [locations lastObject];
+    // how long did it take?
+    NSTimeInterval secondsSince = [self.locationUpdateStartTime timeIntervalSinceNow] * -1;
+    [self saveMsg:[NSString stringWithFormat:@"Seconds since update started %f", secondsSince]];
+    NSLog(@"Seconds since update started %f", secondsSince);
     
-    NSLog(@"Latitude %+.6f, Longitude %+.6f\n",
-          location.coordinate.latitude,
-          location.coordinate.longitude);
-    
+    // did not return location
     if ([locations count] > 1) {
-    
-        CLLocation *secondToLastLocation = [locations objectAtIndex:[locations count] - 1];
-    
-        CLLocationDistance distance = [secondToLastLocation distanceFromLocation:location];
-    
-        NSLog(@"Distance - %f", distance);
-        
-        NSLog(@"LLLatitude %+.6f, LLLLongitude %+.6f\n",
-              secondToLastLocation.coordinate.latitude,
-              secondToLastLocation.coordinate.longitude);
-
-        // region radius
-        if (distance <= 200) {
-            return;
-        }
-    }
-    
-    // apple code
-    // test age to make sure it is not cached
-    // locationAge is measured in seconds
-    NSTimeInterval locationAge = -[location.timestamp timeIntervalSinceNow];
-    NSLog(@"locationAge - %f", locationAge);
-    if (locationAge > 10.0) {
         return;
     }
+    
+    // get location
+    CLLocation *location = [locations lastObject];
     
     // apple code
     // test horizontal accuracy for invalid measurement
@@ -230,23 +213,82 @@
         return;
     }
     
+    // print location coords
+    NSLog(@"Latitude %+.6f, Longitude %+.6f\n",
+          location.coordinate.latitude,
+          location.coordinate.longitude);
+    
+    // accuracy
     NSLog(@"horizontalAccuracy - %f", location.horizontalAccuracy);
     
-    // true if the new location's accuracy is closer in meters than what we've defined
-    if (location.horizontalAccuracy <= self.locationManager.desiredAccuracy) {
+    UIApplicationState appState = [[UIApplication sharedApplication] applicationState];
+    
+    NSLog(@"*** App State: %ld", (long)appState);
+    
+    // UIApplicationStateActive = 0
+    // UIApplicationStateInactive = 1
+    // UIApplicationStateBackground = 2
+    
+    // not background
+    if (appState != UIApplicationStateBackground) {
+
+        NSLog(@"Not in Background");
         
-        NSLog(@"*** New location obtained - %f, %f", location.coordinate.latitude, location.coordinate.longitude);
-        [self saveLog:[NSString stringWithFormat:@"*** New location obtained - %f, %f", location.coordinate.latitude, location.coordinate.longitude]];
-        
-        self.currentLocation = location;
+        // compare last location wiht the newest if theres two
+        if (locations.count > 1) {
+            CLLocation *secondToLastLocation = [locations objectAtIndex:[locations count] - 1];
             
-        // 2.
-        [self stopUpdatingLocation];
+            CLLocationDistance distance = [secondToLastLocation distanceFromLocation:location];
             
-        // 3.
-        [self addRegion];
+            NSLog(@"Distance - %f", distance);
+            
+            NSLog(@"LLLatitude %+.6f, LLLLongitude %+.6f\n",
+                  secondToLastLocation.coordinate.latitude,
+                  secondToLastLocation.coordinate.longitude);
+            
+            // region radius
+            // had this set at 200, but didn't know about this cool doubleValue method
+            // to be honest this doesn't seem like a great idea to do while in the background.
+            // we're saying they haven't traveled outside the region go again
+            if (distance <= 200) {
+                //if (distance <= [self.regionRadius doubleValue]) {
+                NSLog(@"the distance between the last two location is not great enough");
+                return;
+            }
+        }
         
+        // apple code
+        // test age to make sure it is not cached
+        // locationAge is measured in seconds
+        // was using 10, but everyone seems to use 5
+        NSTimeInterval locationAge = -[location.timestamp timeIntervalSinceNow];
+        NSLog(@"locationAge - %f", locationAge);
+        if (locationAge > 5.0) {
+            NSLog(@"location was too old");
+            return;
+        }
+        
+        // true if the new location's accuracy is closer in meters than what we've defined
+        if (location.horizontalAccuracy >= self.locationManager.desiredAccuracy) {
+            return;
+        }
+    } else {
+        [self saveMsg:@"In Background"];
     }
+    
+    NSLog(@"*** New location obtained - %f, %f", location.coordinate.latitude, location.coordinate.longitude);
+    
+    [self saveLog:[NSString stringWithFormat:@"*** New location obtained - %f, %f", location.coordinate.latitude, location.coordinate.longitude]];
+    
+    // set locationmanager property
+    self.currentLocation = location;
+    
+    // 2.
+    [self stopRequestingLocationUpdates];
+    
+    // 3.
+    [self addRegion];
+    
 }
 
 - (CLCircularRegion*)dictToRegion:(NSDictionary*)dictionary
@@ -394,7 +436,7 @@
     PFObject *logObj = [PFObject objectWithClassName:@"Log"];
     logObj[@"message"] = message;
     logObj[@"info"] = @"myIphone";
-    [logObj saveInBackground];
+    //[logObj saveInBackground];
     
 }
 
@@ -406,6 +448,16 @@
         err[@"desc"] = [error localizedDescription];
         [err saveInBackground];
     }
+    
+}
+
+- (void)saveMsg:(NSString *)message
+{
+    
+    PFObject *msg = [PFObject objectWithClassName:@"Msg"];
+    msg[@"message"] = message;
+    msg[@"info"] = @"myIphone";
+    [msg saveInBackground];
     
 }
 

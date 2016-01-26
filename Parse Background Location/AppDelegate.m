@@ -45,7 +45,9 @@
         // Location data is delivered only to the location manager delegate and not using this key
 
         [[WDZLocationManager sharedInstance] locationManager];
+       
         
+        // probably don't need anything after this
         [WDZLocationManager sharedInstance].regionCount = [[WDZLocationManager sharedInstance] locationManager].monitoredRegions.count;
         
         NSLog(@"region count: %lu",(unsigned long)[WDZLocationManager sharedInstance].regionCount);
@@ -99,7 +101,7 @@
     
     if ([WDZLocationManager sharedInstance].regionCount == 0) {
         if ([[WDZLocationManager sharedInstance] checkLocationManager]) {
-            [[WDZLocationManager sharedInstance] startUpdatingLocation];
+            [[WDZLocationManager sharedInstance] startRequestingLocationUpdates];
         }
     } else {
         CLCircularRegion *region = [[[[WDZLocationManager sharedInstance] locationManager].monitoredRegions allObjects] lastObject];
